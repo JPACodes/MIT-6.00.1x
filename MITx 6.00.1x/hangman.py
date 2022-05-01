@@ -62,22 +62,13 @@ def is_word_guessed(secret_word, letters_guessed):
     returns: boolean, True if all the letters of secret_word are in letters_guessed;
       False otherwise
     '''
-    # FILL IN YOUR CODE HERE AND DELETE "pass"
-    for i in secret_word:
-        flag = False
-        if i not in secret_word_letters:
-            secret_word_letters.append(i)
-        else:
-            break
-    for c in letters_guessed:
-        if c not in secret_word_letters:
-            print("word not guessed")
-            flag = True
-            break
-        else:
-            continue
-    if not flag:
-        print("Word guessed")
+    guess = ""
+    for char in secret_word:
+        for c in letters_guessed:
+            if char == c:
+                guess += c
+            else:
+                continue
 
 
 def get_guessed_word(secret_word, letters_guessed):
@@ -165,24 +156,24 @@ def hangman(secret_word):
     accepted_letters = string.ascii_lowercase
 
     textOK = False
+    while get_guessed_word(secret_word,letters_guessed) != secret_word or guesses_left != 0:
+        while guesses_left != 0:
+            guess = (input("What is your guess?: ")).lower()
+            guess.lower()
 
-    while not textOK:
-        guess = (input("What is your guess?: ")).lower()
-        guess.lower()
-
-        if guess not in accepted_letters or guess in prohibited_letters:
-            print('Try a valid character')
-            if warnings_left == 0 and guesses_left != 0:
-                guesses_left -= 1
-            elif guesses_left == 0 and warnings_left == 0:
-                print("Game Over!")
+            if guess not in accepted_letters or guess in prohibited_letters:
+                print('Try a valid character')
+                if warnings_left == 0 and guesses_left != 0:
+                    guesses_left -= 1
+                elif guesses_left == 0 and warnings_left == 0:
+                    print("Game Over!")
+                else:
+                    warnings_left -= 1
             else:
-                warnings_left -= 1
-        else:
-            letters_guessed = letters_guessed + guess
-            textOK = True
+                letters_guessed = letters_guessed + guess
+                break
 
-    get_available_letters(guess)
+        get_available_letters(guess)
 
 
 def rounds(guesses_left, warnings_left):
@@ -278,4 +269,5 @@ if __name__ == "__main__":
 
 # secret_word = choose_word(wordlist)
 # hangman_with_hints(secret_word)
+
 
