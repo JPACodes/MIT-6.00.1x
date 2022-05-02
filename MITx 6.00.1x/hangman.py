@@ -30,6 +30,7 @@ def load_words():
     # wordlist: list of strings
     wordlist = line.split()
     print("  ", len(wordlist), "words loaded.")
+
     return wordlist
 
 
@@ -80,7 +81,7 @@ def get_guessed_word(secret_word, letters_guessed):
     returns: string, comprised of letters, underscores (_), and spaces that represents
       which letters in secret_word have been guessed so far.
     '''
-    guessed_word = ['_ ' for c in secret_word]
+    guessed_word = [' _ ' for c in secret_word]
 
     for letter in letters_guessed:
         for count, char in enumerate(secret_word):
@@ -92,6 +93,7 @@ def get_guessed_word(secret_word, letters_guessed):
                 continue
     guessed_word_str = ''.join(guessed_word)
     print(guessed_word_str)
+    return guessed_word_str
 
 
 def get_available_letters(letters_guessed):
@@ -146,6 +148,7 @@ def hangman(secret_word):
 
     Follows the other limitations detailed in the problem write-up.
     '''
+    good_guess = 0
     guesses_left = 6
     warnings_left = 3
     letters_guessed = ''
@@ -156,10 +159,10 @@ def hangman(secret_word):
 
     while not is_word_guessed(secret_word, letters_guessed) and guesses_left > 0:
         textOK = False
-        get_available_letters(guess)
         guess.lower()
-        while not textOK:
+        while not textOK and guesses_left != 0:
             rounds(guesses_left, warnings_left)
+            get_available_letters(guess)
             guess = (input("Please guess a letter: ")).lower()
             if guess not in accepted_letters or guess in prohibited_letters:
                 print('Try a valid character')
@@ -173,6 +176,9 @@ def hangman(secret_word):
                 if warnings_left != 0:
                     warnings_left -= 1
                     print("You already guessed this letter")
+                else:
+                    print("You already guessed this letter. You have no warnings left so you lose one guess.")
+                    guesses_left -= 1
             else:
                 if guess not in secret_word:
                     print("that letter is not in the word")
@@ -180,6 +186,9 @@ def hangman(secret_word):
                         guesses_left -= 2
                     else:
                         guesses_left -= 1
+                else:
+                    print("Good guess!")
+                    good_guess += 1
                 textOK = True
 
         letters_guessed += guess
@@ -187,12 +196,12 @@ def hangman(secret_word):
 
         if is_word_guessed(secret_word, letters_guessed):
             print("Congratulations, you won!")
-            print("Your total score for this game is")
+            print("Your total score for this game is", (guesses_left * len(secret_word)))
         if guesses_left == 0:
             print("Sorry, you ran out of guesses. The word was:", secret_word)
 
 def rounds(guesses_left, warnings_left):
-    print('You have', guesses_left, 'guesses left', 'and', warnings_left, 'warnings left')
+    print('You have', guesses_left, 'guesses left')
 
 
 # When you've completed your hangman function, scroll down to the bottom
@@ -215,6 +224,17 @@ def match_with_gaps(my_word, other_word):
     '''
     # FILL IN YOUR CODE HERE AND DELETE "pass"
     pass
+
+    my_word = get_guessed_word(secret_word, letters_guessed)
+    my_word.strip()
+
+    for word in wordlist:
+        other_word = word
+        for i in my_word:
+            for c in other_word:
+                if i == c:
+
+
 
 
 def show_possible_matches(my_word):
