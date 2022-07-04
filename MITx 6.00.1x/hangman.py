@@ -1,5 +1,5 @@
 # Problem Set 2, hangman.py
-# Name: Jeanpeter Polanco
+# Name: Jeanpeter Polraanco
 # Collaborators: Stackoverflow
 # Time spent: 15hrs..4/24
 
@@ -40,8 +40,8 @@ def choose_word(wordlist):
 
     Returns a word from wordlist at random
     """
-    return random.choice(wordlist)
-
+    secret_word = random.choice(wordlist)
+    return secret_word
 
 # end of helper code
 
@@ -197,11 +197,11 @@ def hangman(secret_word):
         if is_word_guessed(secret_word, letters_guessed):
             print("Congratulations, you won!")
             print("Your total score for this game is", (guesses_left * len(secret_word)))
-        if guesses_left == 0:
+        if guesses_left < 1:
             print("Sorry, you ran out of guesses. The word was:", secret_word)
 
 def rounds(guesses_left, warnings_left):
-    print('You have', guesses_left, 'guesses left')
+    print('You have', guesses_left, 'guesses left', 'and', warnings_left, 'warnings left')
 
 
 # When you've completed your hangman function, scroll down to the bottom
@@ -225,14 +225,6 @@ def match_with_gaps(my_word, other_word):
     # FILL IN YOUR CODE HERE AND DELETE "pass"
     pass
 
-    my_word = get_guessed_word(secret_word, letters_guessed)
-    my_word.strip()
-
-    for word in wordlist:
-        other_word = word
-        for i in my_word:
-            for c in other_word:
-                if i == c:
 
 
 
@@ -293,8 +285,7 @@ def hangman_with_hints(secret_word):
 
     # To test part 2, comment out the pass line above and
     # uncomment the following two lines.
-
-secret_word = 'bob'
+secret_word = choose_word(wordlist)
 hangman(secret_word)
 
 ###############
